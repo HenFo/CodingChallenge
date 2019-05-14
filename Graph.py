@@ -67,9 +67,19 @@ class Priorityqueue:
         return self.content == []
 
     def contains(self, node):
+        """checks if node is already in the queue
+
+        Arguments:
+            node {Node} -- Node to be checked
+        """
         return node in self.content
 
     def update(self, node):
+        """updates a node within the queue. Raises a ValueError if node does not exist within the queue
+
+        Arguments:
+            node {Node} -- updated node
+        """
         if self.contains(node):
             self.content.remove(node)
             self.add(node)
@@ -107,12 +117,12 @@ def getEdgesFromNode(nodeWithIndex, edgeList):
     return edges
 
 
-def dijkstra(startname, zielname):
+def dijkstra(startname, targetname):
     """Implements the Dijkstra Algorythm
 
     Arguments:
         startname {String} -- Name of the node to start with
-        zielname {String} -- Name of the node to be found
+        targetname {String} -- Name of the node to be found
     """
     graphNodes = generateNodes(json.load(open("generatedGraph.json")))
     start = startname
@@ -135,7 +145,7 @@ def dijkstra(startname, zielname):
     while not gefunden and not queue.isEmpty():
         currentNode = queue.getNext()
 
-        if currentNode.name == zielname:
+        if currentNode.name == targetname:
             # shortest way to targetnode has been found
             gefunden = True
         else:
@@ -174,7 +184,8 @@ def dijkstra(startname, zielname):
 
     # if nothing was found, the target may not exist or is not connected to the start node
     else:
-        raise AttributeError("%s may not exist or is not connected to the start node" % zielname)
+        raise AttributeError(
+            "%s may not exist or is not connected to the start node" % targetname)
 
 
 if __name__ == "__main__":
